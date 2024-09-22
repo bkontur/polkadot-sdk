@@ -16398,6 +16398,7 @@ dependencies = [
  "finality-relay",
  "frame-support",
  "futures",
+ "hex",
  "jsonrpsee",
  "log",
  "num-traits",

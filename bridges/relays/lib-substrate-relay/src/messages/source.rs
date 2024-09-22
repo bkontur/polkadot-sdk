@@ -218,6 +218,17 @@ where
 		id: SourceHeaderIdOf<MessageLaneAdapter<P>>,
 		nonces: RangeInclusive<MessageNonce>,
 	) -> Result<MessageDetailsMap<BalanceOf<P::SourceChain>>, SubstrateError> {
+		log::trace!(
+			target: "bridge-debug",
+			"generated_message_details BEFORE {}->{}: state_call: {:?} lane_id: {:?}, nonces: {:?}, start: {:?}, end: {:?}",
+			P::SourceChain::NAME,
+			P::TargetChain::NAME,
+			P::TargetChain::TO_CHAIN_MESSAGE_DETAILS_METHOD,
+			self.lane_id,
+			nonces,
+			nonces.start(),
+			nonces.end(),
+		);
 		let mut out_msgs_details: Vec<_> = self
 			.source_client
 			.state_call::<_, Vec<_>>(
@@ -227,6 +238,15 @@ where
 			)
 			.await?;
 		validate_out_msgs_details::<P::SourceChain>(&out_msgs_details, nonces)?;
+		log::trace!(
+			target: "bridge-debug",
+			"generated_message_details AFTER {}->{}: state_call: {:?} lane_id: {:?}, out_msgs_details: {:?}",
+			P::SourceChain::NAME,
+			P::TargetChain::NAME,
+			P::TargetChain::TO_CHAIN_MESSAGE_DETAILS_METHOD,
+			self.lane_id,
+			out_msgs_details,
+		);
 
 		// prepare arguments of the inbound message details call (if we need it)
 		let mut msgs_to_refine = vec![];
