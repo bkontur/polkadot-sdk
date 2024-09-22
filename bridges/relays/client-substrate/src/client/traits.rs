@@ -219,14 +219,14 @@ pub trait Client<C: Chain>: 'static + Send + Sync + Clone + Debug {
 		arguments: Args,
 	) -> Result<Ret> {
 		let encoded_arguments = arguments.encode();
-		log::trace!(
-			target: "bridge-debug",
+		log::info!(
+			target: "bridge",
 			"state_call input - method: {method:?}, encoded_arguments: {encoded_arguments:?}, hex: {:?}",
 			hex::encode(&encoded_arguments)
 		);
 		let encoded_output = self.raw_state_call(at, method.clone(), arguments).await?;
-		log::trace!(
-			target: "bridge-debug",
+		log::info!(
+			target: "bridge",
 			"state_call output - method: {method:?}, encoded_output: {encoded_output:?}, hex: {:?}",
 			hex::encode(&encoded_output.0)
 		);

@@ -218,8 +218,8 @@ where
 		id: SourceHeaderIdOf<MessageLaneAdapter<P>>,
 		nonces: RangeInclusive<MessageNonce>,
 	) -> Result<MessageDetailsMap<BalanceOf<P::SourceChain>>, SubstrateError> {
-		log::trace!(
-			target: "bridge-debug",
+		log::info!(
+			target: "bridge",
 			"generated_message_details BEFORE {}->{}: state_call: {:?} lane_id: {:?}, nonces: {:?}, start: {:?}, end: {:?}",
 			P::SourceChain::NAME,
 			P::TargetChain::NAME,
@@ -238,8 +238,8 @@ where
 			)
 			.await?;
 		validate_out_msgs_details::<P::SourceChain>(&out_msgs_details, nonces)?;
-		log::trace!(
-			target: "bridge-debug",
+		log::info!(
+			target: "bridge",
 			"generated_message_details AFTER {}->{}: state_call: {:?} lane_id: {:?}, out_msgs_details: {:?}",
 			P::SourceChain::NAME,
 			P::TargetChain::NAME,
